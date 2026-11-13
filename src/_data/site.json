@@ -1,0 +1,24 @@
+{
+  "name": "Sample Business Co.",
+  "tagline": "Quality service, right here in Apopka.",
+  "description": "Sample Business Co. is a locally owned small business serving Apopka and Central Florida.",
+  "phone": "(407) 555-0123",
+  "email": "hello@example.com",
+  "address": {
+    "street": "123 Main St",
+    "city": "Apopka",
+    "state": "FL",
+    "zip": "32703"
+  },
+  "heroImage": "",
+  "logo": "",
+  "about": "Tell your story here — who you are, how you started, and what makes your business different. Keep it to 2–4 sentences.",
+  "ctaText": "Call Now",
+  "bookingUrl": "",
+  "social": {
+    "instagram": "",
+    "facebook": "",
+    "tiktok": "",
+    "google": ""
+  }
+}

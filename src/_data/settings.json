@@ -1,0 +1,11 @@
+{
+  "_note": "ON-Q25-managed settings. NOT exposed in the CMS.",
+  "url": "https://example.com",
+  "schemaType": "LocalBusiness",
+  "priceRange": "$$",
+  "theme": {
+    "primary": "#0A0A0C",
+    "accent": "#3A86FF",
+    "background": "#FFFFFF"
+  }
+}

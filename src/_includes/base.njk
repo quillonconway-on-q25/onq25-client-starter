@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} | {% endif %}{{ site.name }}</title>
+  <meta name="description" content="{{ description or site.description }}">
+  <link rel="canonical" href="{{ settings.url }}{{ page.url }}">
+
+  <!-- Open Graph (link previews on social / texts) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ title or site.name }}">
+  <meta property="og:description" content="{{ description or site.description }}">
+  <meta property="og:url" content="{{ settings.url }}{{ page.url }}">
+  {% if site.heroImage %}<meta property="og:image" content="{{ settings.url }}{{ site.heroImage }}">{% endif %}
+
+  {% if site.logo %}<link rel="icon" href="{{ site.logo }}">{% endif %}
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root {
+      --primary: {{ settings.theme.primary }};
+      --accent: {{ settings.theme.accent }};
+      --bg: {{ settings.theme.background }};
+    }
+  </style>
+
+  {% include "schema.njk" %}
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a href="/" class="brand">
+        {% if site.logo %}<img src="{{ site.logo }}" alt="{{ site.name }} logo" height="40">{% else %}{{ site.name }}{% endif %}
+      </a>
+      <nav class="nav">
+        <a href="/#services">Services</a>
+        <a href="/#hours">Hours</a>
+        <a href="/#contact">Contact</a>
+        <a href="{{ site.phone | telLink }}" class="btn btn-sm">{{ site.ctaText }}</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {{ content | safe }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <div>
+        <strong>{{ site.name }}</strong><br>
+        <a href="{{ site.address | mapsLink }}" target="_blank" rel="noopener">
+          {{ site.address.street }}, {{ site.address.city }}, {{ site.address.state }} {{ site.address.zip }}
+        </a><br>
+        <a href="{{ site.phone | telLink }}">{{ site.phone }}</a>
+      </div>
+      <div class="social">
+        {% if site.social.instagram %}<a href="{{ site.social.instagram }}" target="_blank" rel="noopener">Instagram</a>{% endif %}
+        {% if site.social.facebook %}<a href="{{ site.social.facebook }}" target="_blank" rel="noopener">Facebook</a>{% endif %}
+        {% if site.social.tiktok %}<a href="{{ site.social.tiktok }}" target="_blank" rel="noopener">TikTok</a>{% endif %}
+        {% if site.social.google %}<a href="{{ site.social.google }}" target="_blank" rel="noopener">Google Reviews</a>{% endif %}
+      </div>
+    </div>
+    <div class="wrap credit">© {{ "" | year }} {{ site.name }} · Site by <a href="https://on-q25.com" target="_blank" rel="noopener">ON-Q25</a></div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{#- LocalBusiness structured data — helps Google match the site to the Google Business Profile.
+    Set settings.schemaType to a specific type: BarberShop, Restaurant, FoodEstablishment, HairSalon,
+    Plumber, Electrician, HVACBusiness, HomeAndConstructionBusiness, etc. -#}
+{%- set dayMap = { "Monday": "Mo", "Tuesday": "Tu", "Wednesday": "We", "Thursday": "Th", "Friday": "Fr", "Saturday": "Sa", "Sunday": "Su" } -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": {{ settings.schemaType | json | safe }},
+  "name": {{ site.name | json | safe }},
+  "description": {{ site.description | json | safe }},
+  "url": {{ settings.url | json | safe }},
+  "telephone": {{ site.phone | json | safe }},
+  {% if site.email %}"email": {{ site.email | json | safe }},{% endif %}
+  {% if site.heroImage %}"image": {{ (settings.url + site.heroImage) | json | safe }},{% endif %}
+  {% if settings.priceRange %}"priceRange": {{ settings.priceRange | json | safe }},{% endif %}
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": {{ site.address.street | json | safe }},
+    "addressLocality": {{ site.address.city | json | safe }},
+    "addressRegion": {{ site.address.state | json | safe }},
+    "postalCode": {{ site.address.zip | json | safe }},
+    "addressCountry": "US"
+  },
+  "openingHours": [
+    {%- set comma = joiner(",") -%}
+    {%- for d in hours.days -%}
+      {%- set h24 = d.time | hours24 -%}
+      {%- if h24 -%}
+        {{ comma() }}{{ (dayMap[d.day] + " " + h24) | json | safe }}
+      {%- endif -%}
+    {%- endfor -%}
+  ],
+  "sameAs": [
+    {%- set c2 = joiner(",") -%}
+    {%- for key, link in site.social -%}{%- if link -%}{{ c2() }}{{ link | json | safe }}{%- endif -%}{%- endfor -%}
+  ]
+}
+</script>

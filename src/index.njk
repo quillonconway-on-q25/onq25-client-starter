@@ -1,0 +1,93 @@
+---
+layout: base.njk
+---
+<section class="hero"{% if site.heroImage %} style="background-image: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)), url('{{ site.heroImage }}')"{% endif %}>
+  <div class="wrap">
+    <h1>{{ site.name }}</h1>
+    <p class="tagline">{{ site.tagline }}</p>
+    <div class="hero-ctas">
+      <a href="{{ site.phone | telLink }}" class="btn">{{ site.ctaText }}</a>
+      {% if site.bookingUrl %}<a href="{{ site.bookingUrl }}" class="btn btn-outline" target="_blank" rel="noopener">Book Online</a>{% endif %}
+    </div>
+  </div>
+</section>
+
+<section id="services" class="section">
+  <div class="wrap">
+    <h2>Services</h2>
+    <div class="grid">
+      {% for item in collections.services %}
+      <article class="card">
+        {% if item.data.image %}<img src="{{ item.data.image }}" alt="{{ item.data.title }}" loading="lazy">{% endif %}
+        <div class="card-body">
+          <div class="card-head">
+            <h3>{{ item.data.title }}</h3>
+            {% if item.data.price %}<span class="price">{{ item.data.price }}</span>{% endif %}
+          </div>
+          {{ item.content | safe }}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section alt">
+  <div class="wrap narrow">
+    <h2>About Us</h2>
+    <p>{{ site.about }}</p>
+  </div>
+</section>
+
+{% if gallery.images.length %}
+<section id="gallery" class="section">
+  <div class="wrap">
+    <h2>{{ gallery.title }}</h2>
+    <div class="gallery">
+      {% for img in gallery.images %}
+      <img src="{{ img.image }}" alt="{{ img.alt or site.name }}" loading="lazy">
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section id="hours" class="section">
+  <div class="wrap two-col">
+    <div>
+      <h2>Hours</h2>
+      <table class="hours">
+        {% for d in hours.days %}
+        <tr><td>{{ d.day }}</td><td>{{ d.time }}</td></tr>
+        {% endfor %}
+      </table>
+      {% if hours.note %}<p class="muted">{{ hours.note }}</p>{% endif %}
+    </div>
+    <div>
+      <h2>Find Us</h2>
+      <p>
+        <a href="{{ site.address | mapsLink }}" target="_blank" rel="noopener">
+          {{ site.address.street }}<br>{{ site.address.city }}, {{ site.address.state }} {{ site.address.zip }}
+        </a>
+      </p>
+      <p><a href="{{ site.phone | telLink }}">{{ site.phone }}</a></p>
+      {% if site.email %}<p><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>{% endif %}
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section alt">
+  <div class="wrap narrow">
+    <h2>Get in Touch</h2>
+    <!-- Netlify Forms: submissions appear in Netlify → Forms (free on credit plans). Set email notifications there. -->
+    <form name="contact" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="company" class="form">
+      <input type="hidden" name="form-name" value="contact">
+      <p class="hidden"><label>Leave blank <input name="company"></label></p>
+      <label>Name <input type="text" name="name" required></label>
+      <label>Phone <input type="tel" name="phone"></label>
+      <label>Email <input type="email" name="email" required></label>
+      <label>Message <textarea name="message" rows="4" required></textarea></label>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </div>
+</section>

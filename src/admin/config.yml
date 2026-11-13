@@ -1,0 +1,105 @@
+# Decap CMS config — client edits content only; layout/design stays with ON-Q25.
+# PER CLIENT: change `repo` and `site_url` below.
+
+backend:
+  name: github
+  repo: on-q25/CLIENT-REPO-NAME   # <-- change per client (org/repo)
+  branch: main
+  commit_messages:
+    create: "Create {{collection}} “{{slug}}” (via CMS)"
+    update: "Update {{collection}} “{{slug}}” (via CMS)"
+    delete: "Delete {{collection}} “{{slug}}” (via CMS)"
+    uploadMedia: "Upload “{{path}}” (via CMS)"
+    deleteMedia: "Delete “{{path}}” (via CMS)"
+
+# Every edit becomes a draft PR → free Netlify Deploy Preview.
+# Publishing = merge to main = 1 production deploy (15 Netlify credits).
+publish_mode: editorial_workflow
+
+# Run `npm run cms` + `npm run dev` to test the CMS locally at localhost:8080/admin/
+local_backend: true
+
+site_url: https://example.com     # <-- change per client
+display_url: https://example.com  # <-- change per client
+logo_url: /images/uploads/logo.png
+
+media_folder: "src/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "settings"
+    label: "Business Info"
+    editor: { preview: false }
+    files:
+      - name: "site"
+        label: "Business Details"
+        file: "src/_data/site.json"
+        fields:
+          - { label: "Business Name", name: "name", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string" }
+          - { label: "Short Description (shows in Google)", name: "description", widget: "text", hint: "1–2 sentences, under 160 characters." }
+          - { label: "About Us", name: "about", widget: "text" }
+          - { label: "Phone", name: "phone", widget: "string" }
+          - { label: "Email", name: "email", widget: "string", required: false }
+          - label: "Address"
+            name: "address"
+            widget: "object"
+            fields:
+              - { label: "Street", name: "street", widget: "string" }
+              - { label: "City", name: "city", widget: "string" }
+              - { label: "State", name: "state", widget: "string" }
+              - { label: "ZIP", name: "zip", widget: "string" }
+          - { label: "Main Button Text", name: "ctaText", widget: "string" }
+          - { label: "Online Booking Link", name: "bookingUrl", widget: "string", required: false, hint: "Calendly, Square, Booksy, etc. Leave blank to hide." }
+          - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+          - { label: "Logo", name: "logo", widget: "image", required: false }
+          - label: "Social Links"
+            name: "social"
+            widget: "object"
+            fields:
+              - { label: "Instagram URL", name: "instagram", widget: "string", required: false }
+              - { label: "Facebook URL", name: "facebook", widget: "string", required: false }
+              - { label: "TikTok URL", name: "tiktok", widget: "string", required: false }
+              - { label: "Google Reviews URL", name: "google", widget: "string", required: false }
+
+      - name: "hours"
+        label: "Hours"
+        file: "src/_data/hours.json"
+        fields:
+          - label: "Days"
+            name: "days"
+            widget: "list"
+            allow_add: false
+            fields:
+              - { label: "Day", name: "day", widget: "string" }
+              - { label: "Hours", name: "time", widget: "string", hint: "e.g. 9:00 AM – 6:00 PM, or Closed" }
+          - { label: "Note", name: "note", widget: "string", required: false, hint: "e.g. Holiday hours may vary." }
+
+      - name: "gallery"
+        label: "Photo Gallery"
+        file: "src/_data/gallery.json"
+        fields:
+          - { label: "Section Title", name: "title", widget: "string" }
+          - label: "Photos"
+            name: "images"
+            widget: "list"
+            fields:
+              - { label: "Photo", name: "image", widget: "image" }
+              - { label: "Description (for accessibility/SEO)", name: "alt", widget: "string", required: false }
+
+  - name: "services"
+    label: "Services / Menu"
+    label_singular: "Item"
+    folder: "src/services"
+    create: true
+    delete: true
+    extension: "md"
+    slug: "{{slug}}"
+    summary: "{{title}} — {{price}}"
+    sortable_fields: ["order", "title"]
+    fields:
+      - { label: "Name", name: "title", widget: "string" }
+      - { label: "Price", name: "price", widget: "string", required: false, hint: "e.g. $35 or From $50" }
+      - { label: "Display Order", name: "order", widget: "number", value_type: "int", default: 10 }
+      - { label: "Photo", name: "image", widget: "image", required: false }
+      - { label: "Description", name: "body", widget: "markdown", buttons: ["bold", "italic", "link", "bulleted-list"], editor_components: [] }
